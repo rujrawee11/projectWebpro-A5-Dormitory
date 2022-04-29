@@ -54,37 +54,23 @@ const routes = [
     name: 'parcel',
     component: () => import('../views/parcel/Parcel.vue')
   },
-  {
-    path: '/Manageinvoice',
-    name: 'manageinvoice',
-    component: () => import('../views/manage/ManageInvoice.vue')
-  },
-  {
-    path: '/invoice',
-    name: 'invoice',
-    component: () => import('../views/manage/Invoice.vue')
-  },
-  {
-    path: '/checkRoom',
-    name: 'room',
-    component: () => import('../views/room/CheckRoom.vue')
-  },
 ]
 
 const router = new VueRouter({ routes })
 
 router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token')
-
+  if (to.meta.guess && isLoggedIn) {
+    alert("You've already logged in")
+    comsole.log('login')
+    next({ path: '/' })
+  }
   if (to.meta.login && !isLoggedIn) {
     alert('Please login first!')
     next({ path: '/user/login' })
   }
 
-  if (to.meta.guess && isLoggedIn) {
-    alert("You've already logged in")
-    next({ path: '/' })
-  }
+
 
   next()
 })

@@ -17,7 +17,7 @@
 </style>
 <template>
   <div id="app">
-    <!-- nav bar -->
+    <!-- nav bar role -->
     <nav
       class="navbar has-shadow is-info"
       role="navigation"
@@ -68,10 +68,7 @@
             </div>
           </div>
 
-          <div
-            class="navbar-item has-dropdown is-hoverable is-info"
-            v-if="user.role == 'employee' || user.role == 'lessor'"
-          >
+          <div class="navbar-item has-dropdown is-hoverable is-info">
             <a class="navbar-link has-text-white"> Invoice </a>
 
             <div class="navbar-dropdown">
@@ -81,11 +78,7 @@
               <a class="navbar-item"> record meters </a>
             </div>
           </div>
-          <router-link
-            class="navbar-item has-text-white"
-            v-if="user.role == 'tenant'"
-            :to="`/invoice`"
-          >
+          <router-link class="navbar-item has-text-white" :to="`/invoice`">
             Invoice
           </router-link>
           <router-link class="navbar-item has-text-white" :to="`/parcel`">
@@ -117,7 +110,7 @@
                 >manage account</router-link
               >
               <router-link to="/user/logout"
-                ><a class="navbar-item">Log out</a></router-link
+                ><a @click="logout" class="navbar-item">Log out</a></router-link
               >
             </div>
           </div>
@@ -166,6 +159,13 @@ export default {
       axios.get("/user/me").then(res => {
         this.user = res.data;
       });
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push({ path: "/signup" });
+      console.log("log out");
+      this.username = "";
+      this.password = "";
     }
   }
 };
