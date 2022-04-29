@@ -1,19 +1,19 @@
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap");
 
-  .navbar {
-    margin-top: 0px;
-    padding: 5px;
-    font-family: 'Kanit', sans-serif;
-  }
+.navbar {
+  margin-top: 0px;
+  padding: 5px;
+  font-family: "Kanit", sans-serif;
+}
 
-  #app {
-    font-family: 'Kanit', sans-serif;
-  }
+#app {
+  font-family: "Kanit", sans-serif;
+}
 
-  .hero {
-    font-family: 'Kanit', sans-serif;
-  }
+.hero {
+  font-family: "Kanit", sans-serif;
+}
 </style>
 <template>
   <div id="app">
@@ -49,14 +49,13 @@
         <div class="navbar-start">
           <a class="navbar-item has-text-white" href="../../"> Home </a>
 
-          <div
-            class="navbar-item has-dropdown is-hoverable"
-            
-          >
+          <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link has-text-white" href="../../"> Room </a>
             <div class="navbar-dropdown">
               <a class="navbar-item"> check room price </a>
-              <router-link class="navbar-item" :to="`/checkRoom`">check room status</router-link>
+              <router-link class="navbar-item" :to="`/checkRoom`"
+                >check room status</router-link
+              >
             </div>
           </div>
 
@@ -69,16 +68,29 @@
             </div>
           </div>
 
-          <div class="navbar-item has-dropdown is-hoverable is-info" v-if="user.role == 'employee' || user.role == 'lessor'" >
+          <div
+            class="navbar-item has-dropdown is-hoverable is-info"
+            v-if="user.role == 'employee' || user.role == 'lessor'"
+          >
             <a class="navbar-link has-text-white"> Invoice </a>
 
             <div class="navbar-dropdown">
-              <router-link class="navbar-item" :to="`/manageinvoice`"> manage invoice </router-link>
+              <router-link class="navbar-item" :to="`/manageinvoice`">
+                manage invoice
+              </router-link>
               <a class="navbar-item"> record meters </a>
             </div>
           </div>
-          <router-link class="navbar-item has-text-white" v-if="user.role == 'tenant'" :to="`/invoice`"> Invoice </router-link>
-          <router-link class="navbar-item has-text-white" :to="`/parcel`"> Parcel </router-link>
+          <router-link
+            class="navbar-item has-text-white"
+            v-if="user.role == 'tenant'"
+            :to="`/invoice`"
+          >
+            Invoice
+          </router-link>
+          <router-link class="navbar-item has-text-white" :to="`/parcel`">
+            Parcel
+          </router-link>
         </div>
 
         <div class="navbar-end">
@@ -101,7 +113,9 @@
               >
             </a>
             <div class="navbar-dropdown">
-              <router-link class="navbar-item"  :to="`/manage`">manage account</router-link>
+              <router-link class="navbar-item" :to="`/manage`"
+                >manage account</router-link
+              >
               <router-link to="/user/logout"
                 ><a class="navbar-item">Log out</a></router-link
               >
@@ -135,7 +149,7 @@ import axios from "@/plugins/axios";
 export default {
   data() {
     return {
-      user: null,
+      user: null
     };
   },
   mounted() {
@@ -149,10 +163,10 @@ export default {
       }
     },
     getUser() {
-      axios.get("/user/me").then((res) => {
+      axios.get("/user/me").then(res => {
         this.user = res.data;
       });
-    },
-  },
+    }
+  }
 };
 </script>

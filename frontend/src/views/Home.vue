@@ -58,7 +58,7 @@
                   @click="
                     $router.push({
                       name: 'update-blog',
-                      params: { id: blog.id },
+                      params: { id: blog.id }
                     })
                   "
                 >
@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       search: "",
-      blogs: [],
+      blogs: []
     };
   },
   mounted() {
@@ -95,13 +95,13 @@ export default {
       axios
         .get("http://localhost:5000", {
           params: {
-            search: this.search,
-          },
+            search: this.search
+          }
         })
-        .then((response) => {
+        .then(response => {
           this.blogs = response.data;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
@@ -121,22 +121,22 @@ export default {
     addLike(blogId) {
       axios
         .put(`http://localhost:5000/blogs/addlike/${blogId}`)
-        .then((response) => {
-          let selectedBlog = this.blogs.filter((e) => e.id === blogId)[0];
+        .then(response => {
+          let selectedBlog = this.blogs.filter(e => e.id === blogId)[0];
           selectedBlog.like = response.data.like;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
         });
     },
     isBlogOwner(blog) {
-      if (this.user.role === 'admin') {
+      if (this.user.role === "employee") {
         return true;
-      }else if (!this.user){
+      } else if (!this.user) {
         return false;
       }
       return blog.create_by_id === this.user.id;
-    },
-  },
+    }
+  }
 };
 </script>

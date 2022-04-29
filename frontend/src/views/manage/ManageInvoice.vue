@@ -11,7 +11,7 @@
               aria-controls="dropdown-menu"
               @click="dropdown_num = !dropdown_num"
             >
-              <span>{{this.dropdownName}}</span>
+              <span>{{ this.dropdownName }}</span>
               <span class="icon is-small">
                 <i
                   class="fas fa-angle-down"
@@ -35,7 +35,6 @@
             </div>
           </div>
         </div>
-       
       </div>
     </div>
     <section class="section mt-1">
@@ -70,7 +69,9 @@
                     @click="showInvoice(room)"
                     :key="room.room_id"
                     v-show="
-                      room.build == blog.build && floor.floor == room.floor">
+                      room.build == blog.build && floor.floor == room.floor
+                    "
+                  >
                     <div
                       class="has-text-centered has-background-light mb-2"
                       style="font-weight: bold"
@@ -120,7 +121,7 @@ export default {
       error: {
         firstName: "",
         surName: "",
-        phone1: "",
+        phone1: ""
       },
       email: "",
       password: "",
@@ -130,7 +131,7 @@ export default {
       dropdown_num: false,
       filter: {},
       checkStatus: "",
-      dropdownName: "----Select Build----",
+      dropdownName: "----Select Build----"
     };
   },
   mounted() {
@@ -142,16 +143,15 @@ export default {
     getBlogDetail() {
       axios
         .get(`http://localhost:5000/manageInvoice`)
-        .then((response) => {
+        .then(response => {
           this.blogs = response.data.blog;
           this.build = response.data.blog;
           this.room = response.data.room;
           this.checkStatus = this.room.status;
           this.floor = response.data.floor;
           this.invoice = response.data.invoice;
-          this.blogs.getElementsByClassName('box').className = ''
         })
-        .catch((error) => {
+        .catch(error => {
           this.error2 = error.response.data.message;
         });
     },
@@ -159,13 +159,13 @@ export default {
       this.$router.push({ name: "invoice" });
     },
     filterBuild(build) {
-      this.blogs = this.build.filter((e) => e.build === build);
-      this.dropdownName = build
+      this.blogs = this.build.filter(e => e.build === build);
+      this.dropdownName = build;
     },
     filterBuildAll() {
       this.blogs = this.build;
-      this.dropdownName = 'all'
-    },
-  },
+      this.dropdownName = "all";
+    }
+  }
 };
 </script>
