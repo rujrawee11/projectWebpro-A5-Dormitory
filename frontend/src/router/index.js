@@ -60,7 +60,7 @@ const routes = [
     component: () => import('../views/manage/ManageInvoice.vue')
   },
   {
-    path: '/invoice',
+    path: '/invoice/:id',
     name: 'invoice',
     component: () => import('../views/manage/Invoice.vue')
   },

@@ -38,8 +38,9 @@
                 >
                   <div class="field mb-5">
                     <label class="label">รายละเอียดหัวบิล</label>
-                    <label class="label">ชื่อนามสกุล</label>
-                    <label class="label">โทร XXXXXXXXXXXx</label>
+                    <label class="label">ชื่อ : คุณ{{blogs.first_name}} {{blogs.last_name}}</label>
+                    <label class="label">เบอร์โทร : {{blogs.mobile}}</label>
+                    <label class="label">เบอร์โทรสำรอง : {{blogs.phone2}}</label>
                   </div>
 
                   <button class="button is-info">แก้ไขหัวบิล</button>
@@ -240,11 +241,21 @@ export default {
     };
   },
   mounted() {
-    //this.getBlogDetail();
+    this.getBlogDetail(this.$route.params.id);
   },
   created() {},
   watch: {},
   methods: {
+   getBlogDetail(tenantId) {
+      axios
+        .get(`http://localhost:5000/showInvoice/${tenantId}`)
+        .then((response) => {
+          this.blogs = response.data.blog;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
     showInvoice() {
       this.$router.push({name: 'manageinvoice'});
     }

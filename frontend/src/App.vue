@@ -78,7 +78,7 @@
               <a class="navbar-item"> record meters </a>
             </div>
           </div>
-          <router-link class="navbar-item has-text-white" :to="`/invoice`"> 
+          <router-link class="navbar-item has-text-white" :to="`/invoice/${user.id}`"> 
             Invoice
           </router-link>
           <router-link class="navbar-item has-text-white" :to="`/parcel`">

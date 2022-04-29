@@ -173,12 +173,12 @@ router.get("/showInvoice/:id", isLoggedIn, async function (req, res, next) {
     /* const [rows1, fields1] = await conn.query(
       'SELECT * FROM `rent_detail`'
     ) */
-    const [rows, fields] = await pool.query('SELECT a.*, b.* FROM users AS a LEFT JOIN invoice AS b ON a.id = b.tenant_id WHERE a.tenant_id = ?',
-    [req.user.id])
+    const [rows, fields] = await pool.query('SELECT a.*, b.* FROM users AS a LEFT JOIN invoice AS b ON a.id = b.tenant_id WHERE a.id = ?',
+    [req.params.id])
 
     console.log(rows)
     await conn.commit()
-    return res.json({ blog: rows3, room: rows1, floor: rows4, invoice: rows2[0], error: null })
+    return res.json({ blog: rows[0], error: null })
   } catch (err) {
     await conn.rollback();
     return res.status(500).json(err)

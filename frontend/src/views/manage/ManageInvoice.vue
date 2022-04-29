@@ -99,7 +99,6 @@
 
 <script>
 import axios from "@/plugins/axios";
-
 export default {
   name: "invoice",
   props: ["user"],
