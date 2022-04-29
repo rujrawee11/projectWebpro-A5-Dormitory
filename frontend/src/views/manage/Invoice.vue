@@ -240,7 +240,7 @@ export default {
     };
   },
   mounted() {
-    this.getBlogDetail();
+    //this.getBlogDetail();
   },
   created() {},
   watch: {},
