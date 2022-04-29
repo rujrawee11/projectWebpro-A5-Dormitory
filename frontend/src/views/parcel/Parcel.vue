@@ -325,7 +325,7 @@
             </div>
           </article>
         </div>
-
+        <div v-if="filteredTasks.length == 0"><p class="subtitle has-text-centered mt-6">ยังไม่มีรายการพัสดุ</p></div>
         <div
           v-for="(parcel, index) in filteredTasks"
           :class="[

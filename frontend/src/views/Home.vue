@@ -47,7 +47,7 @@
       </div>
     </section>
     <section>
-      <div :for="blog in blogs" class="box">
+      <div :for="blog in blogs" class="box" v-if="isBlogOwner(blog)">
         <nav
           class="navbar has-shadow is-info mb-4"
           role="navigation"
