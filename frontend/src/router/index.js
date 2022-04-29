@@ -64,6 +64,11 @@ const routes = [
     name: 'invoice',
     component: () => import('../views/manage/Invoice.vue')
   },
+  {
+    path: '/checkRoom',
+    name: 'room',
+    component: () => import('../views/room/CheckRoom.vue')
+  },
 ]
 
 const router = new VueRouter({ routes })

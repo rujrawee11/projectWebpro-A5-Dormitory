@@ -357,7 +357,7 @@ export default {
       this.showEmailModal = false;
     },
     isBlogOwner(blog) {
-      if (this.user.role === "admin") {
+      if (this.user.role === "employee") {
         return true;
       } else if (!this.user) {
         return false;
@@ -365,7 +365,7 @@ export default {
       return blog.create_by_id === this.user.id;
     },
     isCommentOwner(comment) {
-      if (this.user.role === "admin") {
+      if (this.user.role === "employee") {
         return true;
       } else if (!this.user) {
         return false;

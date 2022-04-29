@@ -820,7 +820,7 @@ export default {
       //return parcel.create_by_id === this.user.id;
     },
     isEmpOwner() {
-      if (this.user.role === "admin") {
+      if (this.user.role === "employee") {
         return true;
       } else if (!this.user) {
         return false;

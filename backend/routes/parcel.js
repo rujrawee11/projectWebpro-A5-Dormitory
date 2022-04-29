@@ -23,7 +23,7 @@ const blogOwner = async (req, res, next) => {
 }
 
 const parcelAdmin = async (req, res, next) => {
-  if (req.user.role === 'admin') {
+  if (req.user.role === 'employee') {
     return next()
   }
 

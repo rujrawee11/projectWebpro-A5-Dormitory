@@ -137,9 +137,10 @@ router.get("/manageInvoice", isLoggedIn, async function (req, res, next) {
   await conn.beginTransaction();
 
   try {
-    const [rows1, fields1] = await conn.query(
-      'SELECT * FROM `rent_detail`'
-    )
+    /* const [rows1, fields1] = await conn.query(
+      'SELECT * FROM `rent_detail` '
+    ) */
+    const [rows1, fields] = await pool.query('SELECT * FROM rent_detail')
 
     const [rows2, fields2] = await conn.query(
       'SELECT * FROM `invoice`'
@@ -152,7 +153,7 @@ router.get("/manageInvoice", isLoggedIn, async function (req, res, next) {
     const [rows4, fields4] = await conn.query(
       'SELECT floor FROM `rent_detail` GROUP BY `floor`'
     )
-    console.log(rows2)
+    console.log(rows1)
     await conn.commit()
     return res.json({ blog: rows3, room: rows1, floor: rows4, invoice: rows2[0], error: null })
   } catch (err) {
@@ -164,4 +165,26 @@ router.get("/manageInvoice", isLoggedIn, async function (req, res, next) {
   }
 });
 
+router.get("/showInvoice/:id", isLoggedIn, async function (req, res, next) {
+  const conn = await pool.getConnection()
+  await conn.beginTransaction();
+
+  try {
+    const [rows1, fields1] = await conn.query(
+      'SELECT * FROM `rent_detail`'
+    )
+    const [rows, fields] = await pool.query('SELECT a.*, b.*, c.* FROM users AS a LEFT JOIN invoice AS b ON a.id = b.tenant_id WHERE a.tenant_id = ?',
+    [req.params.id])
+
+    console.log(rows2)
+    await conn.commit()
+    return res.json({ blog: rows3, room: rows1, floor: rows4, invoice: rows2[0], error: null })
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err)
+  } finally {
+    console.log('finally')
+    conn.release();
+  }
+});
 exports.router = router;

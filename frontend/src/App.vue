@@ -56,7 +56,7 @@
             <a class="navbar-link has-text-white" href="../../"> Room </a>
             <div class="navbar-dropdown">
               <a class="navbar-item"> check room price </a>
-              <a class="navbar-item"> check room status </a>
+              <router-link class="navbar-item" :to="`/checkRoom`">check room status</router-link>
             </div>
           </div>
 
@@ -69,7 +69,7 @@
             </div>
           </div>
 
-          <div class="navbar-item has-dropdown is-hoverable is-info" >
+          <div class="navbar-item has-dropdown is-hoverable is-info" v-if="user.role == 'employee' || user.role == 'lessor'" >
             <a class="navbar-link has-text-white"> Invoice </a>
 
             <div class="navbar-dropdown">
@@ -77,7 +77,7 @@
               <a class="navbar-item"> record meters </a>
             </div>
           </div>
-          <router-link class="navbar-item has-text-white" :to="`/invoice`"> Invoice </router-link>
+          <router-link class="navbar-item has-text-white" v-if="user.role == 'tenant'" :to="`/invoice`"> Invoice </router-link>
           <router-link class="navbar-item has-text-white" :to="`/parcel`"> Parcel </router-link>
         </div>
 

@@ -66,8 +66,8 @@
                   <div
                     class="box has-background-info mr-5"
                     style="height: 10%; width: 15%; cursor: pointer"
+                    @click="showInvoice"
                     v-for="room in room"
-                    @click="showInvoice(room)"
                     :key="room.room_id"
                     v-show="
                       room.build == blog.build && floor.floor == room.floor">
@@ -155,7 +155,7 @@ export default {
           this.error2 = error.response.data.message;
         });
     },
-    showInvoice(room) {
+    showInvoice() {
       this.$router.push({ name: "invoice" });
     },
     filterBuild(build) {
