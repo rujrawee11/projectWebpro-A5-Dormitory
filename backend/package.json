@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/it-web-pro/WEEK09-EXERCISE#readme",
   "dependencies": {
+    "@braid/vue-formulate": "^2.5.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.6",

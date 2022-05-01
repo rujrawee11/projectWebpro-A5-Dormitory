@@ -46,7 +46,7 @@
       </div>
 
       <div class="navbar-menu">
-        <div class="navbar-start">
+        <div class="navbar-start" v-if="user">
           <a class="navbar-item has-text-white" href="../../"> Home </a>
 
           <div class="navbar-item has-dropdown is-hoverable">
@@ -78,7 +78,7 @@
               <a class="navbar-item"> record meters </a>
             </div>
           </div>
-          <router-link class="navbar-item has-text-white" :to="`/invoice/${user.id}`"> 
+          <router-link class="navbar-item has-text-white" :to="`/invoice/${1}`"> 
             Invoice
           </router-link>
           <router-link class="navbar-item has-text-white" :to="`/parcel`">
@@ -93,7 +93,7 @@
             </router-link>
           </div>
 
-          <div v-if="user" class="navbar-item has-dropdown is-hoverable">
+          <div v-if="user" class="navbar-item has-dropdown is-hoverable" >
             <a class="navbar-link">
               <figure class="image is-24x24 my-auto">
                 <img

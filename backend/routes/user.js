@@ -41,6 +41,7 @@ const signupSchema = Joi.object({
     password: Joi.string().required().custom(passwordValidator),
     confirm_password: Joi.string().required().valid(Joi.ref("password")),
     username: Joi.string().required().min(5).max(20).external(usernameValidator),
+    role: Joi.string().required()
 });
 
 router.post("/user/signup", async (req, res, next) => {
@@ -59,11 +60,12 @@ router.post("/user/signup", async (req, res, next) => {
     const last_name = req.body.last_name;
     const email = req.body.email;
     const mobile = req.body.mobile;
+    const role = req.body.role;
 
     try {
         console.log('add')
         await conn.query(
-            "INSERT INTO users(username, password, first_name, last_name, email, mobile) VALUES (?, ?, ?, ?, ?, ?)", [username, password, first_name, last_name, email, mobile]
+            "INSERT INTO users(username, password, first_name, last_name, email, mobile, role) VALUES (?, ?, ?, ?, ?, ?, ?)", [username, password, first_name, last_name, email, mobile, role]
         );
         conn.commit();
         res.status(201).send();

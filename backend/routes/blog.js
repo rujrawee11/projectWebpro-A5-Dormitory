@@ -68,7 +68,7 @@ router.put("/blogs/addlike/:id", async function (req, res, next) {
 });
 
 router.post("/blogs", isLoggedIn, upload.array("myImage", 5), async function (req, res, next) {
-  const file = req.files;
+  const file = req.files; p
   let pathArray = [];
 
   if (!file) {

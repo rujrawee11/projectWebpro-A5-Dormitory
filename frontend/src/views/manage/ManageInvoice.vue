@@ -1,3 +1,4 @@
+<script src="/vue-formulate/dist/formulate.min.js"></script>
 <template>
   <div class="container is-widescreen">
     <div class="columns">
@@ -37,8 +38,17 @@
         </div>
       </div>
     </div>
+
+    <div class="columns">
+      <div class="level has-text-centered mt-1 mb-1" style="margin-left: 30%">
+        <div class="label mr-2" style="font-size: 18px; width: 200px">
+          ประจำเดือน :
+        </div>
+        <input class="input" type="month" v-model="monthInvoice" />
+      </div>
+    </div>
     <section class="section mt-1">
-      <div v-for="blog in blogs" :key="blog.build" class="columns">
+      <div v-for="(blog, index) in blogs" :key="index" class="columns">
         <div class="column is-12">
           <div
             class="p-4"
@@ -59,15 +69,23 @@
               >
                 <div
                   class="columns ml-5"
-                  v-for="floor in floor"
-                  :key="floor.floor"
+                  v-for="(floor, index) in floor"
+                  :key="index"
                 >
                   <div
-                    class="box has-background-info mr-5"
-                    style="height: 10%; width: 15%; cursor: pointer"
-                    v-for="room in room"
+                    class="box mr-5"
+                    v-for="(room, index) in room"
                     @click="showInvoice(room)"
-                    :key="room.room_id"
+                    :style="{
+                      'background-color':
+                        room.room_status == 'unavailable'
+                          ? '#48C78E'
+                          : '#C0B7C7',
+                      height: 10 + '%',
+                      width: 15 + '%',
+                      cursor: 'pointer',
+                    }"
+                    :key="index"
                     v-show="
                       room.build == blog.build && floor.floor == room.floor
                     "
@@ -79,13 +97,12 @@
                       {{ room.room_number }}
                     </div>
                     <div class="columns pt-2">
-                      <figure class="image is-64x64 my-auto ml-6 mr-3 pt-2">
-                        <img
-                          src="https://www.img.in.th/images/e44ec3a34de3558d4b0fdab7af698364.png"
-                        />
+                      <figure class="image is-64x64 my-auto ml-6 mr-2 pt-2">
+                        <img :src="imagePath(room.room_status)" />
                       </figure>
                     </div>
-                    <div class="has-text-centered">{{ room.room_status }}</div>
+
+                    <div class="has-text-centered"></div>
                   </div>
                 </div>
               </div>
@@ -120,7 +137,7 @@ export default {
       error: {
         firstName: "",
         surName: "",
-        phone1: ""
+        phone1: "",
       },
       email: "",
       password: "",
@@ -130,19 +147,23 @@ export default {
       dropdown_num: false,
       filter: {},
       checkStatus: "",
-      dropdownName: "----Select Build----"
+      dropdownName: "----Select Build----",
+      monthInvoice: "",
+      date: "",
     };
   },
   mounted() {
     this.getBlogDetail();
   },
-  created() {},
+  created() {
+   
+  },
   watch: {},
   methods: {
     getBlogDetail() {
       axios
         .get(`http://localhost:5000/manageInvoice`)
-        .then(response => {
+        .then((response) => {
           this.blogs = response.data.blog;
           this.build = response.data.blog;
           this.room = response.data.room;
@@ -150,21 +171,31 @@ export default {
           this.floor = response.data.floor;
           this.invoice = response.data.invoice;
         })
-        .catch(error => {
+        .catch((error) => {
           this.error2 = error.response.data.message;
         });
     },
     showInvoice(room) {
-      this.$router.push({ name: "invoice" });
+      this.$router.push({
+        name: "sendInvoice",
+        params: { id: room.room_number },
+      });
     },
     filterBuild(build) {
-      this.blogs = this.build.filter(e => e.build === build);
+      this.blogs = this.build.filter((e) => e.build === build);
       this.dropdownName = build;
     },
     filterBuildAll() {
       this.blogs = this.build;
       this.dropdownName = "all";
-    }
-  }
+    },
+    imagePath(checkStatus) {
+      if (checkStatus == "unavailable") {
+        return "http://localhost:5000/" + "/uploads/img1.png";
+      } else {
+        return "http://localhost:5000/" + "/uploads/bill2.png";
+      }
+    },
+  },
 };
 </script>

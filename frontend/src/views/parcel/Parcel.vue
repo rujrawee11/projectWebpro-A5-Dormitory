@@ -160,6 +160,7 @@
                           :class="{ 'is-danger': error.duedate }"
                           name="sent_date"
                           v-model="duedate"
+                          :max="new Date().toISOString().slice(0,10)"
                           Due
                           date
                         />
@@ -634,7 +635,10 @@ export default {
       filterMyParcel: {},
       filteredTasks: [],
       error_room: "",
-      typeSorted: "sortNotreceived"
+      typeSorted: "sortNotreceived",
+      /* date: new Date(),
+      minDate : new Date(this.date.getFullYear(), this.date.getMonth() - 1, 10),
+      min: this.minDate.toISOString().slice(0,10) */
     };
   },
   mounted() {

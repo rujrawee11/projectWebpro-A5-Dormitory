@@ -19,6 +19,7 @@ const imageRouter = require('./routes/image')
 const userRouter = require('./routes/user')
 const manageRouter = require('./routes/manage')
 const parcelRouter = require('./routes/parcel')
+const roomRouter = require('./routes/room')
 
 app.use(indexRouter.router)
 app.use(blogRouter.router)
@@ -27,6 +28,7 @@ app.use(imageRouter.router)
 app.use(userRouter.router)
 app.use(manageRouter.router)
 app.use(parcelRouter.router)
+app.use(roomRouter.router)
 
 /* async function logger (req, res, next) {
   const timestamp = new Date().toISOString().substring(0, 19)

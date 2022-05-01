@@ -14,6 +14,37 @@
         <div class="column is-4">
           <h1 class="title">Sign Up</h1>
           <!-- Sign up form -->
+          <div>
+          <span>val = {{ $v.role.$model }}</span
+          ><br />
+          <label
+            >tenant
+            <input
+              type="radio"
+              name="vModelGroup"
+              value="tenant"
+              v-model="$v.role.$model"
+            /> </label
+          ><br />
+          <label
+            >employee
+            <input
+              type="radio"
+              name="vModelGroup"
+              value="employee"
+              v-model="$v.role.$model"
+            /> </label
+          ><br />
+          <label
+            >lessor
+            <input
+              type="radio"
+              name="vModelGroup"
+              value="lessor"
+              v-model="$v.role.$model"
+            />
+          </label>
+        </div>
           <div class="field">
             <label class="label">Username</label>
             <div class="control has-icons-left">
@@ -203,7 +234,8 @@ export default {
       email: "",
       mobile: "",
       first_name: "",
-      last_name: ""
+      last_name: "",
+      role: ""
     };
   },
   methods: {
@@ -220,7 +252,8 @@ export default {
           email: this.email,
           mobile: this.mobile,
           first_name: this.first_name,
-          last_name: this.last_name
+          last_name: this.last_name,
+          role: this.role,
         };
 
         axios
@@ -261,6 +294,9 @@ export default {
       required: required
     },
     last_name: {
+      required: required
+    },
+    role: {
       required: required
     }
   }

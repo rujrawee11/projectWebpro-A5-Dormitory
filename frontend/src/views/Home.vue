@@ -47,7 +47,7 @@
       </div>
     </section>
     <section>
-      <div :for="blog in blogs" class="box" v-if="isBlogOwner(blog)">
+      <div :for="blog in blogs" class="box">
         <nav
           class="navbar has-shadow is-info mb-4"
           role="navigation"
@@ -171,7 +171,7 @@
                   <a class="navbar-link has-text-white "> </a>
                   <div class="navbar-dropdown">
                     <a
-                      v-if="isBlogOwner(blog)"
+                      v-if="isBlogOwner()"
                       class="navbar-item"
                       @click="
                         $router.push({
@@ -183,7 +183,7 @@
                     >
 
                     <a
-                      v-if="isBlogOwner(blog)"
+                      v-if="isBlogOwner()"
                       class="navbar-item"
                       @click="deleteBlog(blog, index)"
                       >delete post</a
@@ -320,7 +320,7 @@ export default {
           });
       }
     },
-    isBlogOwner(blog) {
+    isBlogOwner() {
       if (this.user.role === "employee" || this.user.role === "lessor") {
         return true;
       } else if (!this.user) {
@@ -353,7 +353,7 @@ export default {
         .post("http://localhost:5000/blogs", formData)
         .then(response => {
           // this.$router.push({ name: "home" });
-          this.blog.push(response.data);
+          this.blogs.push(response.data);
         })
         .catch(e => console.log("err"));
     }

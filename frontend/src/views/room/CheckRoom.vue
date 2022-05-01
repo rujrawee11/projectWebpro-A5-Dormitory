@@ -11,7 +11,7 @@
               aria-controls="dropdown-menu"
               @click="dropdown_num = !dropdown_num"
             >
-              <span>{{this.dropdownName}}</span>
+              <span>{{ this.dropdownName }}</span>
               <span class="icon is-small">
                 <i
                   class="fas fa-angle-down"
@@ -35,11 +35,35 @@
             </div>
           </div>
         </div>
-       
+        
       </div>
     </div>
-    <section class="section mt-1">
-      <div v-for="blog in blogs" :key="blog.build" class="columns">
+    <div class="columns mt-6 mb-1">
+      <div class="column  is-three-quarters">
+        <div class="label is-pulled-right mt-2">สถานะ :</div>
+      </div>
+      <div class="column ">
+        <div class="box" style="border: solid 2px #e0e0de; ">
+          <div class="level">
+          <div class="level-left mr-1 ml-4">
+          <div class="button is-small is-rounded has-background-success  mr-2" ></div>
+          <div class="label">ว่าง</div>
+          </div>
+          <div class="level-left mr-1">
+          <div class="button is-small is-rounded has-background-danger  mr-2" ></div>
+          <div class="label">ไม่ว่าง</div>
+          </div>
+          <div class="level-left mr-4">
+          <div class="button is-small is-rounded has-background-info  mr-2" ></div>
+          <div class="label">จอง</div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div v-for="blog in blogs" :key="blog.build" class="columns" v-show="blog.build != null">
         <div class="column is-12">
           <div
             class="p-4"
@@ -64,13 +88,19 @@
                   :key="floor.floor"
                 >
                   <div
-                    class="box has-background-info mr-5"
-                    style="height: 10%; width: 15%; cursor: pointer"
-                    @click="showInvoice"
+                    class="box mr-5"
+                    :style="{
+                          'background-color': room.room_status == 'available'? '#48C78E' :  room.room_status == 'reserve'? '#3E8ED0' : '#F14668',
+                          'height': 10 +'%', 
+                          'width': 15 + '%',
+                          'cursor': 'pointer',
+                        }"
                     v-for="room in room"
+                    @click="showInvoice(room)"
                     :key="room.room_id"
                     v-show="
-                      room.build == blog.build && floor.floor == room.floor">
+                      room.build == blog.build && floor.floor == room.floor"
+                  >
                     <div
                       class="has-text-centered has-background-light mb-2"
                       style="font-weight: bold"
@@ -80,7 +110,7 @@
                     <div class="columns pt-2">
                       <figure class="image is-64x64 my-auto ml-6 mr-3 pt-2">
                         <img
-                          src="https://www.img.in.th/images/e44ec3a34de3558d4b0fdab7af698364.png"
+                           :src="imagePath(room.room_status)"
                         />
                       </figure>
                     </div>
@@ -92,7 +122,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -141,7 +171,7 @@ export default {
   methods: {
     getBlogDetail() {
       axios
-        .get(`http://localhost:5000/manageInvoice`)
+        .get(`http://localhost:5000/checkRoom`)
         .then((response) => {
           this.blogs = response.data.blog;
           this.build = response.data.blog;
@@ -149,23 +179,32 @@ export default {
           this.checkStatus = this.room.status;
           this.floor = response.data.floor;
           this.invoice = response.data.invoice;
-          this.blogs.getElementsByClassName('box').className = ''
         })
         .catch((error) => {
           this.error2 = error.response.data.message;
         });
     },
-    showInvoice() {
-      this.$router.push({ name: "invoice" });
+    showInvoice(room) {
+      this.$router.push({
+        name: "profile",
+        params: { id: room.room_number },
+      });
     },
     filterBuild(build) {
       this.blogs = this.build.filter((e) => e.build === build);
-      this.dropdownName = build
+      this.dropdownName = build;
     },
     filterBuildAll() {
       this.blogs = this.build;
-      this.dropdownName = 'all'
+      this.dropdownName = "all";
     },
+    imagePath(checkStatus) {
+      if(checkStatus == 'unavailable') {
+        return 'http://localhost:5000/' + '/uploads/user.png'
+      }else{
+        return 'http://localhost:5000/' + '/uploads/user3.png'
+      }
+    }
   },
 };
 </script>

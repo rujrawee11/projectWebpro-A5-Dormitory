@@ -2,7 +2,8 @@
   <div class="container is-widescreen">
     <section class="section">
       <div class="box is-fullwidth">
-        <div class="columns">
+        
+        <div class="columns" >
           <div class="column is-2">
             <div
               class="box is-centered"
@@ -16,19 +17,16 @@
               <p class="has-text-centered" style="font-weight: bold">บิล</p>
             </div>
           </div>
-
-          <div class="column is-10">
+          <div class="column is-10 has-text-centered mt-6 has-text-danger" style="font-weight: bold; font-size: 22px;" v-if="blogs.invoice_date == null"> ยังไม่มีบิลของเดือนนี้! </div>
+          <div class="column is-10" v-if="blogs.invoice_date != null">
             <div class="colummns">
-              <div class="column p-4" style="background-color: #fab15c; color: white">
-                ห้อง XX ชื่อเดือน/ปี
-                <button
-              class="delete is-pulled-right"
-              aria-label="close"
-              @click="showInvoice"
-            >
-            </button>
+              <div
+                class="column p-4"
+                style="background-color: #fab15c; color: white"
+              >
+                ห้อง {{ blogs.room_number }} {{ blogs.month }}/{{ blogs.year }}
+                
               </div>
-              
             </div>
             <div class="columns">
               <div class="column is-6">
@@ -36,14 +34,17 @@
                   class="box ml-1 mt-5 p-5"
                   style="border: solid 2px #e0e0de"
                 >
-                  <div class="field mb-5">
+                  <div class="field mb-1">
                     <label class="label">รายละเอียดหัวบิล</label>
-                    <label class="label">ชื่อ : คุณ{{blogs.first_name}} {{blogs.last_name}}</label>
-                    <label class="label">เบอร์โทร : {{blogs.mobile}}</label>
-                    <label class="label">เบอร์โทรสำรอง : {{blogs.phone2}}</label>
+                    <label class="label"
+                      >ชื่อ : คุณ{{ blogs.first_name }}
+                      {{ blogs.last_name }}</label
+                    >
+                    <label class="label">เบอร์โทร : {{ blogs.mobile }}</label>
+                    <label class="label"
+                      >เบอร์โทรสำรอง : {{ blogs.phone2 }}</label
+                    >
                   </div>
-
-                  <button class="button is-info">แก้ไขหัวบิล</button>
                 </div>
               </div>
               <div class="column is-6">
@@ -53,7 +54,7 @@
                 >
                   <div class="level mb-2">
                     <label class="label">สถานะบิล</label>
-                    <label class="label">XXX</label>
+                    <label class="label">{{ blogs.status }}</label>
                   </div>
                 </div>
                 <div
@@ -64,7 +65,17 @@
                     <p class="card-header-title">บิลจะถูกส่งไปให้ผู้เช่า</p>
                   </header>
                   <div class="card-content">
-                    <div class="content">XXXXXXXX</div>
+                    <div class="content">
+                      <span class="icon is-small pr-3">
+                        <i class="fas fa-user" aria-hidden="true"></i> </span
+                      >{{ blogs.first_name }} {{ blogs.last_name }}
+                    </div>
+                    <div class="content">
+                      <span class="icon is-small pr-3">
+                        <i class="fas fa-headphones" aria-hidden="true"></i>
+                      </span>
+                      <a >{{ blogs.mobile }}</a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -85,17 +96,15 @@
                   <tr>
                     <td class="pt-3 pl-5 pt-2">
                       ค่าเช่าห้อง(Room rate) เลขห้อง เดือน ลำดับที่ของเดือน/ปี
-                      <button
-                        class="button is-small is-warning is-pulled-right"
-                      >
-                        แก้ไข
-                      </button>
+                      
+                      
                     </td>
                     <td class="pt-3 pl-5">
                       <input
                         type="text"
                         class="input"
                         placeholder=""
+                        v-model="roomRate"
                         disabled
                       />
                     </td>
@@ -110,6 +119,7 @@
                         type="text"
                         class="input"
                         placeholder=""
+                        v-model="waterFee"
                         disabled
                       />
                     </td>
@@ -124,6 +134,7 @@
                         type="text"
                         class="input"
                         placeholder=""
+                        v-model="electricity"
                         disabled
                       />
                     </td>
@@ -131,14 +142,13 @@
                   <tr>
                     <td class="pt-3 pl-5">
                       ค่าส่วนกลาง(dorm free)
-                      <button class="button is-small is-danger is-pulled-right">
-                        แก้ไข
-                      </button>
+                      
                     </td>
                     <td class="pt-3 pl-5">
                       <input
                         type="text"
                         class="input"
+                        v-model="commonFee"
                         placeholder=""
                         disabled
                       />
@@ -150,6 +160,7 @@
                       <input
                         type="text"
                         class="input"
+                        v-model="totalPre"
                         placeholder=""
                         disabled
                       />
@@ -162,6 +173,7 @@
                         type="text"
                         class="input"
                         placeholder=""
+                        v-model="tax"
                         disabled
                       />
                     </td>
@@ -173,6 +185,7 @@
                         type="text"
                         class="input"
                         placeholder=""
+                        v-model="total"
                         disabled
                       />
                     </td>
@@ -180,28 +193,24 @@
                 </tbody>
               </table>
             </div>
-
-            <div class="columns">
-              <div class="column has-text-right">
-                <button class="button is-success mt-3">เพิ่มส่วนลด</button>
-                <button class="button is-warning mt-3 ml-3">เพิ่มรายการ</button>
-              </div>
-            </div>
-            <div class="box" style="border: solid 2px #e0e0de">
-              <div class="level">
-                <label class="label" style="width: 100px">หมายเหตุ : </label>
-                <input type="text" class="input" placeholder="" />
+             <div class="box" style="border: solid 2px #e0e0de">
+              <div class="level-left">
+                <label class="label mt-2" style="width: 100px">หมายเหตุ : </label>
+                <label class="label has-text-danger" placeholder="">{{blogs.note}} </label>
               </div>
             </div>
             <div class="columns">
-              <div class="column has-text-right">
+              <div class="column has-text-left has-text-danger">
+                *หากชำระล่าช้าจะถูกทบในเดือนถัดไป
+              </div>
+              <div class="column has-text-right p-2">
                 <button
-                  class="button is-primary is-normal mt-3"
-                  style="width: 10%"
+                  class="button is-success is-normal mt-3"
+                  style="width: 30%"
                 >
                   <span class="icon mr-3">
                     <i class="fas fa-envelope-open-text"></i> </span
-                  >ส่งบิล
+                  >จ่ายค่าห้อง
                 </button>
               </div>
             </div>
@@ -238,6 +247,13 @@ export default {
       password: "",
       showProfileModal: false,
       showEmailModal: false,
+      roomRate: 0,
+      waterFee: 0,
+      electricity: 0,
+      commonFee: 0,
+      totalPre: 0,
+      tax: 0,
+      total: 0,
     };
   },
   mounted() {
@@ -246,19 +262,35 @@ export default {
   created() {},
   watch: {},
   methods: {
-   getBlogDetail(tenantId) {
+    getBlogDetail(tenantId) {
       axios
         .get(`http://localhost:5000/showInvoice/${tenantId}`)
         .then((response) => {
           this.blogs = response.data.blog;
+          this.roomRate = this.blogs.dorm_fee;
+          this.waterFee = this.blogs.water_fee;
+          this.electricity = this.blogs.electricity_fee;
+          this.commonFee = this.blogs.common_fee;
+          this.totalPre =
+            this.roomRate + this.waterFee + this.electricity + this.commonFee;
+          this.tax = this.totalPre * 0.07;
+          this.total = this.totalPre + this.totalPre * 0.07;
+
+          this.roomRate = this.roomRate.toFixed(2)
+          this.waterFee = this.waterFee.toFixed(2)
+          this.electricity = this.electricity.toFixed(2)
+          this.commonFee = this.commonFee.toFixed(2)
+          this.tax = this.tax.toFixed(2);
+          this.total = this.total.toFixed(2);
+          this.totalPre = this.totalPre.toFixed(2);
         })
         .catch((error) => {
           this.error = error.response.data.message;
         });
     },
-    showInvoice() {
-      this.$router.push({name: 'manageinvoice'});
-    }
+    /* showInvoice() {
+      this.$router.push({ name: "manageinvoice" });
+    }, */
   },
 };
 </script>

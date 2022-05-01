@@ -60,9 +60,24 @@ const routes = [
     component: () => import('../views/manage/ManageInvoice.vue')
   },
   {
+    path: '/checkRoom',
+    name: 'checkRoom',
+    component: () => import('../views/room/checkRoom.vue')
+  },
+  {
+    path: '/Manageinvoice/sendInvoice/:id',
+    name: 'sendInvoice',
+    component: () => import('../views/manage/SendInvoice.vue')
+  },
+  {
     path: '/invoice/:id',
     name: 'invoice',
     component: () => import('../views/manage/Invoice.vue')
+  },
+  {
+    path: '/checkRoom/profile/:id',
+    name: 'profile',
+    component: () => import('../views/room/profile.vue')
   },
 ]
 
@@ -72,7 +87,7 @@ router.beforeEach((to, from, next) => {
   const isLoggedIn = !!localStorage.getItem('token')
   if (to.meta.guess && isLoggedIn) {
     alert("You've already logged in")
-    comsole.log('login')
+    console.log('login')
     next({ path: '/' })
   }
   if (to.meta.login && !isLoggedIn) {
